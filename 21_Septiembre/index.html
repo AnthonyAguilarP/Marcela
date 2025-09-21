@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flor + Corazón — 21 de septiembre</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+
+    .heart-svg {
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(255,0,0,0.5)) drop-shadow(0 0 12px rgba(255,0,0,0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(255,0,0,0.9)) drop-shadow(0 0 24px rgba(255,0,0,0.7));
+  }
+}
+
+    :root{
+      --bg-1: #fffaf2;
+      --bg-2: #fff6e6;
+      --accent: #FFD54A;
+      --accent-dark: #FFB300;
+      --text: #513B2B;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .card{
+      width:100%;
+      max-width:420px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
+      border-radius:18px;
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(79,60,37,0.08);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      transform:translateZ(0);
+      backdrop-filter: blur(6px) saturate(120%);
+      position:relative;
+    }
+
+    .mini-badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#fff7e0,#fff3d1);
+      border:1px solid rgba(0,0,0,0.03);
+      color: #7b5a2b;
+      font-weight:600;
+      letter-spacing:0.6px;
+    }
+
+    .stage{
+      width:92%;
+      max-width:320px;
+      aspect-ratio:1 / 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      padding:6%;
+    }
+
+    .message{
+      font-family: "Great Vibes", "Poppins", cursive;
+      font-size:20px;
+      color:var(--text);
+      text-align:center;
+      opacity:0;
+      transform:translateY(8px) scale(0.98);
+      transition:opacity 420ms cubic-bezier(.2,.9,.3,1), transform 420ms cubic-bezier(.2,.9,.3,1);
+      will-change:transform, opacity;
+      padding:6px 12px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+      box-shadow: 0 6px 20px rgba(81,59,42,0.06);
+      z-index:4;
+    }
+
+    .message.show{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .caption{
+      font-size:13px;
+      color:#7b5a2b;
+      opacity:0.95;
+      margin-top:6px;
+      text-align:center;
+    }
+
+    svg{ width:100%; height:100%; display:block }
+
+    .flower{
+      transform-origin:50% 50%;
+      animation: float 6s ease-in-out 3s infinite;
+    }
+    @keyframes float{
+      0% { transform: translateY(0) rotate(-0.2deg) }
+      50% { transform: translateY(-6px) rotate(0.2deg) }
+      100% { transform: translateY(0) rotate(-0.2deg) }
+    }
+
+    /* Petals / centre drawing */
+    .petal, .center {
+      stroke: var(--accent-dark);
+      stroke-width:2.6;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      pathLength:1;
+      stroke-dasharray:1;
+      stroke-dashoffset:1;
+      fill-opacity:0;
+      will-change: stroke-dashoffset, fill-opacity, transform;
+      animation-name: draw;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(.2,.8,.3,1);
+    }
+
+    .petal { fill: var(--accent); }
+    .petal { animation-delay: calc(var(--i, 0) * 0.4s); }
+
+    .center {
+      fill: var(--accent-dark);
+      stroke-width:2;
+      animation-name: draw-center;
+      animation-duration: 0.4s;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(.2,.9,.3,1);
+      animation-delay: 2.6s;
+    }
+
+    @keyframes draw {
+      0%{ stroke-dashoffset:1; fill-opacity:0; transform: scale(0.96); }
+      70%{ stroke-dashoffset:0; fill-opacity:0; transform: scale(1.03); }
+      100%{ stroke-dashoffset:0; fill-opacity:1; transform: scale(1); }
+    }
+    @keyframes draw-center {
+      0%{ stroke-dashoffset:1; fill-opacity:0; transform: scale(0.9); }
+      60%{ stroke-dashoffset:0; fill-opacity:0; transform: scale(1.05); }
+      100%{ stroke-dashoffset:0; fill-opacity:1; transform: scale(1); }
+    }
+
+    .flower.bloom { animation: bloom 420ms cubic-bezier(.2,.9,.3,1) both; transform-origin: 50% 50%; }
+    @keyframes bloom { 0%{ transform: scale(0.98) } 40%{ transform: scale(1.06) } 100%{ transform: scale(1) } }
+
+    /* Heart image (initially hidden). It's an SVG with a clipPath heart shape filled by image mar.png */
+    .heart-wrap{
+      position:absolute;
+      left:30%;
+      bottom:-15%;
+      transform:translateX(-50%) translateY(8px) scale(0.86);
+      width:46%;
+      max-width:180px;
+      pointer-events:auto;
+      z-index:3;
+      opacity:0;
+      transition: opacity 420ms cubic-bezier(.2,.9,.3,1), transform 420ms cubic-bezier(.2,.9,.3,1);
+      touch-action: manipulation;
+    }
+    .heart-wrap.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0) scale(1);
+    }
+    .heart-svg{ width:100%; height:auto; display:block; }
+
+    /* Fallback heart styling (if image doesn't load) */
+    .heart-fallback{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .petal, .center { animation: none; stroke-dashoffset:0; fill-opacity:1 }
+      .flower, .stage { animation: none }
+      .message, .heart-wrap{ transition:none; opacity:1; transform:none }
+    }
+
+    @media (max-width:420px){
+      .card{ padding:14px; border-radius:14px }
+      .message{ font-size:18px }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="title">
+    <div class="mini-badge" id="title">Pequeño detalle florido</div>
+
+    <div class="stage" aria-hidden="false">
+      <!-- Flower SVG -->
+      <svg viewBox="0 0 200 200" role="img" aria-label="Flor amarilla animada">
+        <defs>
+          <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#e3c07a" flood-opacity="0.25"/>
+          </filter>
+        </defs>
+
+        <g class="flower" filter="url(#soft-shadow)">
+          <!-- Petals dentro de grupos para rotar alrededor del centro (100,100) -->
+          <g style="--i:0" transform="translate(100 100) rotate(0)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+          <g style="--i:1" transform="translate(100 100) rotate(60)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+          <g style="--i:2" transform="translate(100 100) rotate(120)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+          <g style="--i:3" transform="translate(100 100) rotate(180)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+          <g style="--i:4" transform="translate(100 100) rotate(240)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+          <g style="--i:5" transform="translate(100 100) rotate(300)">
+            <ellipse class="petal" cx="0" cy="-42" rx="18" ry="36" pathLength="1" />
+          </g>
+
+          <!-- Centro -->
+          <circle class="center center-stroke" cx="100" cy="100" r="16" pathLength="1"/>
+          <circle cx="96" cy="96" r="4" fill="rgba(255,255,255,0.85)" opacity="0" id="highlight" />
+        </g>
+      </svg>
+
+      <!-- Heart image SVG (clipped to heart path) -->
+      <div class="heart-wrap" id="heartWrap" aria-hidden="true" title="Corazón">
+        <!-- SVG with clipPath: el <image> usa mar.png -->
+        <svg class="heart-svg" viewBox="0 0 200 200" role="img" aria-label="Corazón">
+          <defs>
+            <!-- clipPath para forma de corazón -->
+            <clipPath id="heartClip">
+              <!-- Curva de corazón aproximada centrada en 100,100 -->
+              <path d="M100 170
+                       C40 130, 20 95, 50 65
+                       C70 45, 100 60, 100 80
+                       C100 60, 130 45, 150 65
+                       C180 95, 160 130, 100 170 Z" />
+            </clipPath>
+
+            <!-- pattern para rellenar la forma con la imagen mar.png -->
+            <pattern id="imgPattern" patternUnits="objectBoundingBox" width="1" height="1">
+              <!-- Usamos tamaño fijo 200x200 para que la imagen cubra bien -->
+              <<image href="mar.png" width="200" height="200" preserveAspectRatio="xMidYMid meet" />
+
+            </pattern>
+          </defs>
+
+          <!-- Fondo de soporte con patrón (se recorta por clipPath) -->
+          <rect x="0" y="0" width="200" height="200" fill="url(#imgPattern)" clip-path="url(#heartClip)"></rect>
+
+          <!-- Línea de contorno suave alrededor del corazón -->
+          <path d="M100 170
+                   C40 130, 20 95, 50 65
+                   C70 45, 100 60, 100 80
+                   C100 60, 130 45, 150 65
+                   C180 95, 160 130, 100 170 Z"
+                fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="4" clip-path="url(#heartClip)"/>
+        </svg>
+
+        <!-- Fallback (si la imagen no carga, mostramos un corazón CSS simple) -->
+        <svg class="heart-fallback" viewBox="0 0 200 200" aria-hidden="true" style="display:none;">
+          <path d="M100 170 C40 130, 20 95, 50 65 C70 45, 100 60, 100 80 C100 60, 130 45, 150 65 C180 95, 160 130, 100 170 Z"
+                fill="#FF6B81" opacity="0.95"/>
+        </svg>
+      </div>
+    </div>
+
+    <div id="msg" class="message" aria-live="polite">Feliz 21 de septiembre, cachetoncita linda 💛</div>
+    <div class="caption">Que tu día florezca tan bonito como esta flor.</div>
+  </main>
+
+  <script>
+    (function(){
+      const totalMs = 3000; // duración del dibujo de la flor (requisito)
+      const buffer = 80;
+      const msg = document.getElementById('msg');
+      const flower = document.querySelector('.flower');
+      const highlight = document.getElementById('highlight');
+      const heartWrap = document.getElementById('heartWrap');
+
+      // 1) Mostrar mensaje y bloom cuando termina la flor
+      setTimeout(() => {
+        msg.classList.add('show');
+        flower.classList.add('bloom');
+
+        if (highlight) {
+          highlight.style.transition = 'opacity 360ms ease-out, transform 420ms ease-out';
+          highlight.style.transitionDelay = '80ms';
+          highlight.style.opacity = '1';
+          highlight.style.transform = 'translateY(-1px)';
+        }
+      }, totalMs + buffer);
+
+      // 2) Mostrar corazón un poco después del mensaje (efecto secuenciado)
+      const heartDelay = totalMs + buffer + 320;
+      setTimeout(() => {
+        // Hacemos visible el corazón
+        heartWrap.classList.add('show');
+        heartWrap.setAttribute('aria-hidden', 'false');
+
+        // Comprobar si la imagen carga; si no, mostrar fallback
+        const img = heartWrap.querySelector('image');
+        let fallback = heartWrap.querySelector('.heart-fallback');
+        // Si el navegador no puede cargar la imagen (error), mostramos fallback
+        if (img) {
+          // Intentar detectar carga fallida: creamos un objeto Image para comprobar
+          const probe = new Image();
+          probe.onload = () => {
+            // OK: la imagen existe, nada más que hacer
+          };
+          probe.onerror = () => {
+            // ocultar pattern y mostrar fallback svg
+            const rect = heartWrap.querySelector('rect');
+            if (rect) rect.style.display = 'none';
+            if (fallback) fallback.style.display = 'block';
+          };
+          probe.src = img.getAttribute('href') || img.getAttribute('xlink:href');
+        } else {
+          // no hay <image>, mostrar fallback
+          if (fallback) fallback.style.display = 'block';
+        }
+      }, heartDelay);
+
+      // Replay al tocar el stage: replaya la flor y resetea el corazón
+      const stage = document.querySelector('.stage');
+      let replaying = false;
+      stage.addEventListener('click', () => {
+        if (replaying) return;
+        replaying = true;
+
+        // ocultar mensaje y corazón
+        msg.classList.remove('show');
+        flower.classList.remove('bloom');
+        if (highlight) highlight.style.opacity = '0';
+        heartWrap.classList.remove('show');
+        heartWrap.setAttribute('aria-hidden', 'true');
+
+        // reset animaciones de pétalos y centro
+        const petalEls = document.querySelectorAll('.petal');
+        petalEls.forEach(el => {
+          el.style.animation = 'none';
+          void el.offsetWidth;
+          el.style.animation = '';
+        });
+        const center = document.querySelector('.center');
+        if (center) {
+          center.style.animation = 'none';
+          void center.offsetWidth;
+          center.style.animation = '';
+        }
+
+        // permitir otro replay cuando termine
+        setTimeout(() => { replaying = false; }, totalMs + 600);
+
+        // volver a mostrar mensaje y corazón en los tiempos originales
+        setTimeout(() => {
+          msg.classList.add('show');
+          flower.classList.add('bloom');
+        }, totalMs + buffer);
+        setTimeout(() => {
+          heartWrap.classList.add('show');
+          heartWrap.setAttribute('aria-hidden', 'false');
+        }, heartDelay);
+      });
+
+      // Accesibilidad: si reduce motion, mostrar todo inmediatamente
+      const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (media.matches) {
+        msg.classList.add('show');
+        flower.classList.add('bloom');
+        if (highlight) highlight.style.opacity = '1';
+        heartWrap.classList.add('show');
+        heartWrap.setAttribute('aria-hidden', 'false');
+      }
+    })();
+  </script>
+</body>
+</html>
